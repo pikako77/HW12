@@ -7,35 +7,36 @@ import time
 def scrape():
     scrape_dict ={}
 
-    # #print ("Scrapping news ...")
-    # scrape_dict = get_news()
+    #print ("Scrapping news ...")
+    scrape_dict = get_news()
 
-    # #print ("Scrapping Mars image ...")
-    # scrape_dict.update(get_img_url())
+    #print ("Scrapping Mars image ...")
+    scrape_dict.update(get_img_url())
 
-    # #print ("Scrapping weather ...")
-    # scrape_dict.update(get_weather())
+    #print ("Scrapping weather ...")
+    scrape_dict.update(get_weather())
 
-    # #print ("Scrapping fact table ...")
-    # scrape_dict.update(get_fact_table())
+    #print ("Scrapping fact table ...")
+    scrape_dict.update(get_fact_table())
 
-    # #print ("Scrapping hemisphere url ...")
+    #print ("Scrapping hemisphere url ...")
     scrape_hemi= get_hemi_url()
-
-    print(scrape_hemi[0])
-    # for elt in scrape_hemi:
-    #     scrape_dict.update({elt[0], elt[1]})
 
     return scrape_dict,scrape_hemi
 
 
+def init_browser():
+    # @NOTE: Replace the path with your actual path to the chromedriver
+    #executable_path = {"executable_path": "/usr/local/bin/chromedriver"}
+    executable_path = {"executable_path": "chromedriver.exe"}
+    return Browser("chrome", **executable_path, headless=False)
 
 #--------------------------------
 # get news title and body
 def get_news():
     # get news
-    executable_path = {'executable_path': 'chromedriver.exe'}
-    browser = Browser('chrome', **executable_path, headless=False)
+    browser = init_browser()
+
     url = 'https://mars.nasa.gov/news/'
     browser.visit(url) 
 
@@ -56,8 +57,8 @@ def get_news():
 # get Mars image url
 def get_img_url():
     img_dict = {}
-    executable_path = {'executable_path': 'chromedriver.exe'}
-    browser = Browser('chrome', **executable_path, headless=False)
+
+    browser = init_browser()
 
     url = 'https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars'
     browser.visit(url)
@@ -86,8 +87,8 @@ def get_img_url():
 # Get one before last
 def get_weather():
     weather_dict = {}
-    executable_path = {'executable_path': 'chromedriver.exe'}
-    browser = Browser('chrome', **executable_path, headless=False)
+
+    browser = init_browser()
 
     url = 'https://twitter.com/marswxreport?lang=en'
     browser.visit(url)
@@ -131,8 +132,7 @@ def get_fact_table():
 #--------------------------------
 # get hemisphere img url
 def get_hemi_url():
-    executable_path = {'executable_path': 'chromedriver.exe'}
-    browser = Browser('chrome', **executable_path, headless=False)
+    browser = init_browser()
 
     url = 'https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
     browser.visit(url)
