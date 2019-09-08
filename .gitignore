@@ -1,6 +1,6 @@
 # Byte-compiled / optimized / DLL files
 code/tmp/*
-
+code/pablo/*
 
 __pycache__/
 *.py[cod]

@@ -3,26 +3,62 @@ from bs4 import BeautifulSoup
 
 import pandas as pd
 import time
+import requests
 
-def scrape():
-    scrape_dict ={}
+def scrape_all():
 
-    #print ("Scrapping news ...")
-    scrape_dict = get_news()
+    # Initiate headless driver for deployment
+    #browser = init_browser()
 
-    #print ("Scrapping Mars image ...")
-    scrape_dict.update(get_img_url())
+    # Run all scraping functions and store in dictionary.
+    # data = {
+    #     "news_title": news_title,
+    #     "news_paragraph": news_paragraph,
+    #     "featured_image": featured_image(browser),
+    #     "hemispheres": hemispheres(browser),
+    #     "weather": twitter_weather(browser),
+    #     "facts": mars_facts(),
+    #     "last_modified": dt.datetime.now()
+    # }
+    news_title, news_paragraph = get_news()
 
-    #print ("Scrapping weather ...")
-    scrape_dict.update(get_weather())
+    data = {}
 
-    #print ("Scrapping fact table ...")
-    scrape_dict.update(get_fact_table())
 
-    #print ("Scrapping hemisphere url ...")
-    scrape_hemi= get_hemi_url()
+    data = {
+        "news_title": news_title,
+        "news_paragraph": news_paragraph,
+        "featured_image": get_img_url() ,
+        
+        "weather": get_weather(),
+        "facts": get_fact_table(),
+        "hemispheres":get_hemi_url()
+        #"last_modified": dt.datetime.now()
+    }
 
-    return scrape_dict,scrape_hemi
+    # Stop webdriver and return data
+    #browser.quit()
+    return data
+
+# def scrape():
+#     scrape_dict ={}
+
+#     #print ("Scrapping news ...")
+#     scrape_dict = {"news", get_news()}
+
+#     #print ("Scrapping Mars image ...")
+#     scrape_dict.update(get_img_url())
+
+#     #print ("Scrapping weather ...")
+#     scrape_dict.update(get_weather())
+
+#     #print ("Scrapping fact table ...")
+#     scrape_dict.update(get_fact_table())
+
+#     #print ("Scrapping hemisphere url ...")
+#     scrape_hemi= get_hemi_url()
+
+#     return scrape_dict,scrape_hemi
 
 
 def init_browser():
@@ -43,20 +79,21 @@ def get_news():
     html = browser.html
     news_soup = BeautifulSoup(html, 'html.parser')
     news_title = news_soup.find('div', class_='content_title')
-    nasa_news_title = news_title.get_text()
+    nasa_news_title = news_title.text
     news_body_title = news_soup.find('div', class_='article_teaser_body')
-    nasa_news_body = news_body_title.get_text()
+    nasa_news_body = news_body_title.text
 
-    nasa_news_dict = {"title": nasa_news_title , 
-                      "news_text" : nasa_news_body}
+    # nasa_news_dict = {"title": nasa_news_title , 
+    #                   "news_text" : nasa_news_body}
 
     browser.quit()
-    return nasa_news_dict
+    #return nasa_news_dict
+    return nasa_news_title,nasa_news_body
 
 #--------------------------------
 # get Mars image url
 def get_img_url():
-    img_dict = {}
+    #img_dict = {}
 
     browser = init_browser()
 
@@ -77,16 +114,17 @@ def get_img_url():
     img_url_rel = img_soup.select_one('figure.lede a img').get("src")
     featured_image_url = f'https://www.jpl.nasa.gov{img_url_rel}'
 
-    img_dict ={'Mars_img_url': featured_image_url}
+   # img_dict ={'Mars_img_url': featured_image_url}
 
     browser.quit()
-    return img_dict
+    #return img_dict
+    return featured_image_url
 
 #--------------------------------
 # get weather tweet. Last one is a no data comment
 # Get one before last
 def get_weather():
-    weather_dict = {}
+    #weather_dict = {}
 
     browser = init_browser()
 
@@ -97,19 +135,20 @@ def get_weather():
     weather_soup = BeautifulSoup(html, 'html.parser')
     
     ## last tweet. Uncomment when radar are back
-    #mars_weather = weather_soup.select_one('div.js-tweet-text-container p').get_text()
+    mars_weather = weather_soup.select_one('div.js-tweet-text-container p').get_text()
     #mars_weather
     ## End - last tweet. Uncomment when radar are back
 
     # One before last tweet -> comment when radars are back
-    mars_weather = weather_soup.find_all('p',class_="tweet-text")[1].get_text()
+    #mars_weather = weather_soup.find_all('p',class_="tweet-text")[1].text
     # End  - One before last tweet -> comment when radars are back
     
-    weather_dict = {"weather" : mars_weather}
+    #weather_dict = {"weather" : mars_weather}
 
     browser.quit()
 
-    return weather_dict
+   # return weather_dict
+    return mars_weather
 
 
 
@@ -123,10 +162,13 @@ def get_fact_table():
     df =  pd.read_html(url)
 
     Mars_table_df = df[1]
+    Mars_table_df.columns = ['Description', 'Value']
+    Mars_table_df.set_index('Description', inplace = True)
+    html_fact_table_df = Mars_table_df.to_html()
+    #fact_dict={"fact_table":Mars_table_df}
 
-    fact_dict={"fact_table":Mars_table_df}
-
-    return fact_dict
+    #return fact_dict
+    return html_fact_table_df
 
 
 #--------------------------------
@@ -159,13 +201,15 @@ def get_hemi_url():
     
     browser.quit()
 
+    #return img_info
     return img_info
+
     
 
 ############
 ## main
-main_dict,url_list = scrape()
-
-print(main_dict)
-print()
-print(url_list)
+# main_dict,url_list = scrape_all()
+#main_dict = scrape_all()
+#print(main_dict)
+# print()
+# print(url_list)
