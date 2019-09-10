@@ -135,12 +135,12 @@ def get_weather():
     weather_soup = BeautifulSoup(html, 'html.parser')
     
     ## last tweet. Uncomment when radar are back
-    mars_weather = weather_soup.select_one('div.js-tweet-text-container p').get_text()
+    #mars_weather = weather_soup.select_one('div.js-tweet-text-container p').get_text()
     #mars_weather
     ## End - last tweet. Uncomment when radar are back
 
     # One before last tweet -> comment when radars are back
-    #mars_weather = weather_soup.find_all('p',class_="tweet-text")[1].text
+    mars_weather = weather_soup.find_all('p',class_="tweet-text")[3].text
     # End  - One before last tweet -> comment when radars are back
     
     #weather_dict = {"weather" : mars_weather}
@@ -155,7 +155,7 @@ def get_weather():
 #--------------------------------
 # get fact table
 def get_fact_table():
-    fact_dict = {}
+    #fact_dict = {}
 
 
     url = 'https://space-facts.com/mars/'
@@ -163,8 +163,8 @@ def get_fact_table():
 
     Mars_table_df = df[1]
     Mars_table_df.columns = ['Description', 'Value']
-    Mars_table_df.set_index('Description', inplace = True)
-    html_fact_table_df = Mars_table_df.to_html()
+    #Mars_table_df.set_index('Description', inplace = True)
+    html_fact_table_df = Mars_table_df.to_html(header = True, index = False)
     #fact_dict={"fact_table":Mars_table_df}
 
     #return fact_dict

@@ -5,9 +5,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Hot Finds</title>
+  <title>Mars homework </title>
+  
+  <link rel="stylesheet" href="../static/css/reset.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" type = "text/css" href="../static/css/style.css">
 </head>
 
 <body>
@@ -18,15 +20,59 @@
       <p><a class="btn btn-primary btn-lg" href="/scrape" role="button">Scrape New data!</a></p>
     </div>
 
-    <!-- Craigslist Listings -->
-    {% for item in listings %}
-    <div class="row" id="craiglist-listings">
-      <div class="col-md-12">
-        <h4 class="heading">{{item.price}} {{item.headline}}</h4>
-        <small>{{item.hood}}</small>
+    <div class = "cointainer">
+      <div class="row" id="mars-news">
+        <div class="col-md-8">
+
+          <h2><b>Latest Mars News</b></h2>
+          <h4 class = "mars_data" >{{mars_db.news_title}}</h4>
+          <p>{{mars_db.news_paragraph}}</p>
+        </div>
       </div>
+
+      <div class="row" id="mars-image">
+        <div class = "col-md-8">
+          <h2><b>Feature Mars Image</b></h2>
+          <img class = "img-responsive" src="{{mars_db.featured_image}}" style="max-width:90%; " alt="JPL Mars Space Main Image">
+        </div>
+      
+        <div class = " col-md-4">
+           <!-- <h2><b>Current Weather on Mars</b></h2>
+            <p>{{mars_db.weather}}</p>-->
+
+            <div class = "card" style ="width: 100%;">
+                <div class="card-body text-black" style="background-color:whitesmoke;">
+                    <h6 class="card-title" style="font-weight: bold; font-size: 30px">Current Weather on Mars</h6>
+                    <p class="card-text" >{{ mars_db.weather}}</p>
+                </div>
+              </div>
+          
+              <h2><b>Mars Facts</b></h2>
+              <p>{{mars_db.facts | safe}}</p> 
+  
+        </div>
+        <div class = "cointainer">
+          </div>
+        <div class = "cointainer">
+            <div class = "row">
+                <div class = "col-md-12">
+                    <h2 style="text-align: center"><b>Mars Hemispheres</b></h2>
+
+                    {% for hemi in mars_db.hemispheres %}
+                    <li>{{ hemi }}</li>
+                    {% endfor %}                    
+                  </div> <!--   end col-md -->
+              </div><!--   end row -->
+
+        </div><!--   end cointainer -->
+        
+
+
+        
+
     </div>
-    {% endfor %}
+
+
   </div>
 </body>
 

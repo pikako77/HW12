@@ -20,7 +20,7 @@ def scrape():
     mars_db = mongo.db.scrape_dict
     scrape_dict_data = scrape_mars.scrape_all()
     mars_db.update({}, scrape_dict_data, upsert=True)
-    return ("done")
+    return redirect("/", code = 302)
 
 
 if __name__ == "__main__":
