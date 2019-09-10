@@ -20,7 +20,7 @@
       <p><a class="btn btn-primary btn-lg" href="/scrape" role="button">Scrape New data!</a></p>
     </div>
 
-    <div class = "cointainer">
+    <div class = "container">
       <div class="row" id="mars-news">
         <div class="col-md-8">
 
@@ -36,12 +36,12 @@
           <img class = "img-responsive" src="{{mars_db.featured_image}}" style="max-width:90%; " alt="JPL Mars Space Main Image">
         </div>
       
-        <div class = " col-md-4">
+        <div class = " col-md-4" id="table">
            <!-- <h2><b>Current Weather on Mars</b></h2>
             <p>{{mars_db.weather}}</p>-->
 
             <div class = "card" style ="width: 100%;">
-                <div class="card-body text-black" style="background-color:whitesmoke;">
+                <div class="card-body text-black">
                     <h6 class="card-title" style="font-weight: bold; font-size: 30px">Current Weather on Mars</h6>
                     <p class="card-text" >{{ mars_db.weather}}</p>
                 </div>
@@ -51,22 +51,22 @@
               <p>{{mars_db.facts | safe}}</p> 
   
         </div>
-        <div class = "cointainer">
-          </div>
-        <div class = "cointainer">
-            <div class = "row">
+
+             <div class = "row" id = "hemisphere image">
                 <div class = "col-md-12">
                     <h2 style="text-align: center"><b>Mars Hemispheres</b></h2>
+                    
+                    {% for hemi in mars_db.hemispheres%}
+                    <div class = "col-md-6">
+                          <div class = "thumbnail">
+                            <h4>{{hemi.title}} </h4>
+                            <img class = "img" src="{{hemi.img_url}}" style="max-width:90%" alt="Hemisphere Images">
+                          </div> <!--   end thumbnail -->
+                    </div>  <!--  end col-md -->
+                   {% endfor %}               
 
-                    {% for hemi in mars_db.hemispheres %}
-                    <li>{{ hemi }}</li>
-                    {% endfor %}                    
-                  </div> <!--   end col-md -->
-              </div><!--   end row -->
-
-        </div><!--   end cointainer -->
-        
-
+                  </div>
+                </div>
 
         
 
