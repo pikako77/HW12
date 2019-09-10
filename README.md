@@ -10,7 +10,7 @@
 - [Mars image (top)](https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars)
 - [Weather](https://twitter.com/marswxreport?lang=en)
 - [Fact table](https://space-facts.com/mars/)
-- [Mars Hemisphere](https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars)
+- [Mars Hemisphere (bottom)](https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars)
 
 
 ### Requirement:
